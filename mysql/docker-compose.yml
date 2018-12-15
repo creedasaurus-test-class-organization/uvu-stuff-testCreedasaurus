@@ -1,0 +1,15 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+    volumes:
+        # add scripts that will run on startup -- use the csv folder to organize large inserts like example
+      - ./scripts:/docker-entrypoint-initdb.d
+        # add CSV files with data
+      - ./csv/locations.csv:/csv/locations.csv
+    # this command allows the csv files to be loaded
+    command: ["--secure-file-priv=csv"]
